@@ -1,0 +1,5 @@
+<div class="alert alert-danger" role="alert" ng-if="failed">Ops... Algo deu errado :/</div>
+<button type="button" class="btn btn-info" ng-click="doDraw()" ng-disabled="buttonDisabled">
+  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Realizar sorteio
+</button>
+<custom-table config="tableConfig"></custom-table>

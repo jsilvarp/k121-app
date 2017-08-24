@@ -1,0 +1,15 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td ng-repeat="head in config.columns">{{head.title || head.column}}</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(key, person) in config.data">
+            <td ng-repeat="prop in config.columns" ng-if="prop.type == 'text'">{{person[prop.column]}}</td>
+            <td ng-repeat="prop in config.columns" ng-if="prop.type == 'button'">
+                <a href="javascript:void(0);" ng-click="prop.onClick(person, key)"><i class="{{prop.iconClass}}"></i> </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

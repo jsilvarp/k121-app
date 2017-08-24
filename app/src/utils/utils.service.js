@@ -4,7 +4,7 @@ angular.module('k121.services', [])
 .factory('utilService', [
     '$http', 
     function ($http) {
-        var endpoint = 'https://k121-api.herokuapp.com/';
+        var endpoint = 'https://k121-api.herokuapp.com';
         var srvc = {};
     
         srvc.get = function (id) {

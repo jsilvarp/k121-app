@@ -18,17 +18,15 @@
     "protractor": "^4.0.9"
   },
   "dependencies": {
-    "http-server": "^0.9.0",
-    "bower": "^1.7.7"
+    "bower": "^1.7.7",
+    "express": "^4.15.4",
+    "morgan": "^1.8.2"
   },
   "scripts": {
     "postinstall": "bower install",
-
-    "start": "http-server -a localhost -p 80 -c-1 ./app",
-
+    "start": "node server.js",
     "test": "karma start karma.conf.js",
     "update-webdriver": "webdriver-manager update",
-
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js"
   }

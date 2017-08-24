@@ -18,18 +18,20 @@ angular.module('k121.controllers')
                     $scope.person = person;
                 }
             )
-        } 
+        }
 
         $scope.onSave = function () {
-            onSave($scope.person).then(
-                function (resp) {
-                    $location.path('/home');
-                }, 
-                function (err) {
-                    $log.log(err);
-                    $scope.failed = true;
-                }
-            );
+            if (!$scope.form.$invalid && $scope.form.$dirty) {
+                onSave($scope.person).then(
+                    function (resp) {
+                        $location.path('/home');
+                    }, 
+                    function (err) {
+                        $log.log(err);
+                        $scope.failed = true;
+                    }
+                );
+            }
         }
 
         function onSave (data) {

@@ -2,4 +2,8 @@
 <button type="button" class="btn btn-info" ng-click="doDraw()" ng-disabled="buttonDisabled">
   <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Realizar sorteio
 </button>
+<div class="spinner" ng-hide="tableConfig.data">
+  <i class="fa fa-gear fa-spin"></i>
+  <div class="backdrop"></div>
+</div>
 <custom-table config="tableConfig"></custom-table>

@@ -13,7 +13,6 @@ angular.module('k121.controllers', [])
         $scope.buttonDisabled = false;
         
         $scope.tableConfig = {
-            data: [],
             columns: [
                 { 
                     title: 'Nome', 
@@ -50,10 +49,10 @@ angular.module('k121.controllers', [])
         }
 
         function onDelete (data, index) {
-            if (confirm('Deseja prosseguir?')) {
+            if (confirm('Se você apagar um membro do amigo secreto será realizado um novo sorteio.\n\nDeseja prosseguir?')) {
                 utilService.delete(data._id).then(
                     function () {
-                        $scope.tableConfig.data.splice(index, 1);
+                        doDraw();
                     }, 
                     function (err) {
                         $log.log(err);

@@ -1,6 +1,6 @@
 'use strict';
- 
-angular.module('k121.directives', [])
+
+angular.module('k121.CustomTable', [])
 .directive('customTable', function () {
     return {
         scope: {
@@ -10,4 +10,4 @@ angular.module('k121.directives', [])
         restrict: 'AEC',
         templateUrl: 'src/table/table.html'
     };
-}); 
+});

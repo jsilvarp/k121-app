@@ -1,90 +1,79 @@
 'use strict';
 
-angular.module('k121.controllers', [])
-.controller('HomeController', [
-    '$scope',
-    '$log',
-    'utilService',
-    '$location',
-    '$route',
-    function($scope, $log, utilService, $location, $route) {
-        $log.debug('HomeController');
-        $scope.failed = false;
-        $scope.buttonDisabled = false;
-        
-        $scope.tableConfig = {
-            columns: [
-                { 
-                    title: 'Nome', 
-                    column: 'name',
-                    type: 'text'
-                },
-                {
-                    title: 'Email',
-                    column: 'email',
-                    type: 'text'
-                },
-                {
-                    title: 'Amigo Secreto', 
-                    column: 'friend',
-                    type: 'text'
-                },
-                {
-                    type: 'button',
-                    iconClass: 'fa fa-edit',
-                    onClick: onEdit
-                },
-                {
-                    type: 'button',
-                    iconClass: 'fa fa-trash',
-                    onClick: onDelete
-                }
-            ]
-        };
-        
-        init();
+function HomeController ($scope, $location, $route, SecretAPI, DrawAPI) {
+  var vm = this;
 
-        $scope.doDraw = function () {
-            doDraw();
-        }
+  vm.loading = false;
+  vm.failed = false;
+  vm.buttonDisabled = false;
+  vm.tableConfig = {};
+  vm.doDraw = doDraw;
 
-        function onDelete (data, index) {
-            if (confirm('Se você apagar um membro do amigo secreto será realizado um novo sorteio.\n\nDeseja prosseguir?')) {
-                utilService.delete(data._id).then(
-                    function () {
-                        doDraw();
-                    }, 
-                    function (err) {
-                        $log.log(err);
-                        $scope.failed = true;
-                    }
-                )
-            }
-        }
+  vm.tableConfig = {
+    columns: [
+      {
+        title: 'Nome',
+        column: 'name',
+        type: 'text'
+      },
+      {
+        title: 'Email',
+        column: 'email',
+        type: 'text'
+      },
+      {
+        title: 'Amigo Secreto',
+        column: 'friend',
+        type: 'text'
+      },
+      {
+        type: 'button',
+        iconClass: 'fa fa-edit',
+        onClick: onEdit
+      },
+      {
+        type: 'button',
+        iconClass: 'fa fa-trash',
+        onClick: onDelete
+      }
+    ]
+  };
 
-        function onEdit (data, index) {
-             $location.path('/edit/' + data._id);
-        }
+  init();
 
-        function init () {
-            utilService.get().then(
-                function (resp) {
-                    $scope.tableConfig.data = resp;
-                }, 
-                function (err) {
-                    $log.log(err);
-                }
-            )
-        }
-
-        function doDraw () {
-            $scope.buttonDisabled = true;
-            utilService.draw().then(
-                function (people) {
-                    $scope.buttonDisabled = false;
-                    $scope.tableConfig.data = people.data;
-                }
-            )
-        }
+  function onDelete (data, index) {
+    if (confirm('Se você apagar um membro do amigo secreto será realizado um novo sorteio.\n\nDeseja prosseguir?')) {
+      SecretAPI.delete({ id: data._id }, doDraw);
     }
-]);
+  }
+
+  function onEdit (data, index) {
+    $location.path('/edit/' + data._id);
+  }
+
+  function init () {
+    vm.loading = true;
+
+    SecretAPI.query(function (resp) {
+      vm.tableConfig.data = resp;
+      vm.loading = false;
+    });
+  }
+
+  function doDraw () {
+    vm.buttonDisabled = true;
+    vm.loading = true;
+
+    DrawAPI.query(function(people) {
+      vm.tableConfig.data = people;
+      vm.buttonDisabled = false;
+      vm.loading = false;
+    });
+  }
+}
+
+HomeController.$inject = ['$scope', '$location', '$route', 'SecretAPI', 'DrawAPI'];
+
+angular
+  .module('k121.Home', [])
+  .controller('HomeController', HomeController);

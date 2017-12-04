@@ -1,9 +1,9 @@
 <div class="alert alert-danger" role="alert" ng-if="failed">Ops... Algo deu errado :/</div>
-<button type="button" class="btn btn-info" ng-click="doDraw()" ng-disabled="buttonDisabled">
+<button type="button" class="btn btn-info" ng-click="homeCtrl.doDraw()" ng-disabled="homeCtrl.buttonDisabled">
   <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Realizar sorteio
 </button>
-<div class="spinner" ng-hide="tableConfig.data">
+<div class="spinner" ng-hide="!homeCtrl.loading">
   <i class="fa fa-gear fa-spin"></i>
   <div class="backdrop"></div>
 </div>
-<custom-table config="tableConfig"></custom-table>
+<custom-table config="homeCtrl.tableConfig"></custom-table>
